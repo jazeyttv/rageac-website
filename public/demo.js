@@ -299,29 +299,193 @@
             '<span style="font-size:10px;color:var(--text-4)">28m ago</span></div>';
     }
 
-    // ── Identities: Mock Results ──
+    // ── Identities: Mock Results with clickable profiles ──
+    var idPlayers = [];
     var idResults = document.getElementById('dIdResults');
     if (idResults) {
-        var h = '';
+        // Pre-generate player data for profiles
         for (var i = 0; i < 6; i++) {
             var name = N[R(0, N.length - 1)];
-            var initial = name.charAt(0).toUpperCase();
-            var conns = R(3, 45);
-            var hasBan = Math.random() > 0.7;
-            h += '<div class="id-result">' +
+            var license = hex(40);
+            var conns = R(8, 81);
+            var hasBan = Math.random() > 0.65;
+            var trust = hasBan ? R(20, 60) : R(70, 100);
+            var discord = R(100000000000, 999999999999) + '' + R(100, 999);
+            var steam = '1100001' + hex(9);
+            var fivem = R(100000, 9999999);
+            var firstSeen = R(1, 12) + '/' + R(1, 28) + '/2026, ' + R(1, 12) + ':' + String(R(0, 59)).padStart(2, '0') + ':' + String(R(0, 59)).padStart(2, '0') + (R(0, 1) ? ' PM' : ' AM');
+            var lastSeen = '2/' + R(10, 14) + '/2026, ' + R(1, 12) + ':' + String(R(0, 59)).padStart(2, '0') + ':' + String(R(0, 59)).padStart(2, '0') + ' PM';
+            var ips = [];
+            for (var j = 0; j < R(2, 5); j++) ips.push(R(10, 200) + '.' + R(0, 255) + '.' + R(0, 255) + '.' + R(1, 254));
+
+            idPlayers.push({
+                name: name, license: license, conns: conns, hasBan: hasBan, trust: trust,
+                discord: discord, steam: steam, fivem: fivem,
+                firstSeen: firstSeen, lastSeen: lastSeen, ips: ips
+            });
+        }
+
+        var h = '';
+        idPlayers.forEach(function (p, idx) {
+            var initial = p.name.charAt(0).toUpperCase();
+            h += '<div class="id-result" onclick="openProfile(' + idx + ')" style="cursor:pointer">' +
                 '<div class="id-result-avatar">' + initial + '</div>' +
                 '<div class="id-result-info">' +
-                '<div class="id-result-name">' + E(name) + (hasBan ? ' <span style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(231,76,60,.15);color:#ef4444;font-weight:600;margin-left:4px">BANNED</span>' : '') + '</div>' +
-                '<div class="id-result-id">license:' + hex(32) + '</div>' +
+                '<div class="id-result-name">' + E(p.name) + (p.hasBan ? ' <span style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(231,76,60,.15);color:#ef4444;font-weight:600;margin-left:4px">BANNED</span>' : '') + '</div>' +
+                '<div class="id-result-id">license:' + p.license.substring(0, 32) + '...</div>' +
                 '<div class="id-result-badges">' +
                 '<span class="id-badge discord">Discord</span>' +
                 '<span class="id-badge steam">Steam</span>' +
                 '<span class="id-badge fivem">FiveM</span>' +
                 '</div></div>' +
-                '<div style="text-align:right;font-size:11px;color:var(--text-4)">' + conns + ' connections<br>Last seen: ' + R(1, 30) + 'd ago</div></div>';
-        }
+                '<div style="text-align:right;font-size:11px;color:var(--text-4)">' + p.conns + ' connections<br>Last seen: ' + R(1, 14) + 'd ago</div></div>';
+        });
         idResults.innerHTML = h;
     }
+
+    // ── Profile: Open player profile ──
+    window.openProfile = function (idx) {
+        var p = idPlayers[idx];
+        if (!p) return;
+
+        document.getElementById('idSearchView').style.display = 'none';
+        document.getElementById('idProfileView').style.display = 'block';
+
+        document.getElementById('profBreadcrumb').textContent = p.name;
+        document.getElementById('profName').textContent = p.name;
+        document.getElementById('profLicense').textContent = p.license;
+        document.getElementById('profFirstSeen').textContent = p.firstSeen;
+        document.getElementById('profLastSeen').textContent = p.lastSeen;
+        document.getElementById('profConnections').textContent = p.conns;
+
+        // Status
+        var statusEl = document.getElementById('profStatus');
+        statusEl.innerHTML = p.hasBan
+            ? '<span class="profile-status banned">● Banned</span>'
+            : '<span class="profile-status clean">● Clean</span>';
+
+        // Trust
+        var trustEl = document.getElementById('profTrust');
+        var tc = p.trust > 70 ? 'green' : p.trust > 40 ? 'orange' : 'red';
+        trustEl.innerHTML = '<span class="profile-trust ' + tc + '">' + p.trust + '</span>';
+
+        // Linked accounts
+        var accEl = document.getElementById('profAccounts');
+        accEl.innerHTML =
+            '<span class="profile-account discord">🎮 ' + p.discord + '</span>' +
+            '<span class="profile-account steam">🎮 ' + p.steam + '...</span>' +
+            '<span class="profile-account fivem">🎮 ' + p.fivem + '</span>';
+
+        // Unban button
+        var unbanBtn = document.getElementById('profUnbanBtn');
+        unbanBtn.style.display = p.hasBan ? 'block' : 'none';
+
+        // Connections tab
+        var connList = document.getElementById('profConnectionsList');
+        var ch = '';
+        for (var c = 0; c < R(5, 12); c++) {
+            var daysAgo = R(0, 30);
+            var duration = R(10, 480);
+            ch += '<div class="profile-log-item">' +
+                '<span class="profile-log-badge connected">Connected</span>' +
+                '<div style="flex:1;font-size:12px;color:var(--text-2)">' + (daysAgo === 0 ? 'Today' : daysAgo + 'd ago') +
+                ' — played for ' + (duration > 60 ? Math.floor(duration / 60) + 'h ' + (duration % 60) + 'm' : duration + 'm') + '</div>' +
+                '<span style="font-size:11px;color:var(--text-4)">' + P(p.ips) + '</span></div>';
+        }
+        connList.innerHTML = ch;
+
+        // Servers tab
+        var serversList = document.getElementById('profServersList');
+        var sh = '';
+        for (var s = 0; s < R(2, 5); s++) {
+            var sNames = ['Demo RP Server', 'Eclipse Roleplay', 'Sunset Valley RP', 'Horizon Gaming', 'Neon City RP'];
+            sh += '<div class="profile-log-item">' +
+                '<span class="material-icons-round" style="font-size:16px;color:var(--green)">dns</span>' +
+                '<div style="flex:1"><div style="font-size:13px;font-weight:600">' + P(sNames) + '</div>' +
+                '<div style="font-size:11px;color:var(--text-4)">Last seen: ' + R(1, 30) + 'd ago · ' + R(2, 50) + ' connections</div></div></div>';
+        }
+        serversList.innerHTML = sh;
+
+        // Identifiers tab
+        var idList = document.getElementById('profIdentifiersList');
+        idList.innerHTML =
+            '<div class="profile-id-item"><div class="profile-id-type">License</div>license:' + p.license + '</div>' +
+            '<div class="profile-id-item"><div class="profile-id-type">License2</div>license2:' + hex(40) + '</div>' +
+            '<div class="profile-id-item"><div class="profile-id-type">Discord</div>discord:' + p.discord + '</div>' +
+            '<div class="profile-id-item"><div class="profile-id-type">Steam</div>steam:' + p.steam + '</div>' +
+            '<div class="profile-id-item"><div class="profile-id-type">FiveM</div>fivem:' + p.fivem + '</div>' +
+            '<div class="profile-id-item"><div class="profile-id-type">XBL</div>xbl:' + R(1000000000, 9999999999) + '</div>' +
+            '<div class="profile-id-item"><div class="profile-id-type">Live</div>live:' + R(1000000000, 9999999999) + '</div>';
+
+        // IPs tab
+        var ipsList = document.getElementById('profIpsList');
+        var ih = '';
+        p.ips.forEach(function (ip) {
+            ih += '<div class="profile-log-item">' +
+                '<span class="material-icons-round" style="font-size:16px;color:var(--blue)">language</span>' +
+                '<div style="flex:1"><div style="font-size:13px;font-weight:500;font-family:monospace">' + ip + '</div>' +
+                '<div style="font-size:11px;color:var(--text-4)">Seen ' + R(1, 20) + ' times · Last: ' + R(1, 14) + 'd ago</div></div></div>';
+        });
+        ipsList.innerHTML = ih;
+
+        // Logs tab
+        var logsList = document.getElementById('profLogsList');
+        var lTypes = [
+            { badge: 'connected', label: 'Connected', msg: 'Joined the server' },
+            { badge: 'disconnected', label: 'Disconnected', msg: 'Left the server' },
+            { badge: 'detection', label: 'Detection', msg: '' },
+        ];
+        if (p.hasBan) lTypes.push({ badge: 'ban', label: 'Banned', msg: '' });
+        var lh = '';
+        for (var l = 0; l < R(8, 15); l++) {
+            var lt = P(lTypes);
+            var lmsg = lt.msg || P(D);
+            lh += '<div class="profile-log-item">' +
+                '<span class="profile-log-badge ' + lt.badge + '">' + lt.label + '</span>' +
+                '<div style="flex:1;font-size:12px;color:var(--text-2)">' + lmsg + '</div>' +
+                '<span style="font-size:11px;color:var(--text-4)">' + T(R(0, 500)) + '</span></div>';
+        }
+        logsList.innerHTML = lh;
+
+        // Threats tab
+        var threatsList = document.getElementById('profThreatsList');
+        if (p.hasBan || p.trust < 70) {
+            var th = '';
+            var numThreats = R(1, 4);
+            for (var t = 0; t < numThreats; t++) {
+                var det = P(D);
+                var sev = P(SV);
+                th += '<div class="profile-threat-card"><div class="threat-meta">' +
+                    '<strong>Detection:</strong> ' + det + '<br>' +
+                    '<strong>Severity:</strong> <span style="color:' + SC[sev] + ';text-transform:uppercase;font-weight:600">' + sev + '</span><br>' +
+                    '<strong>Time:</strong> ' + T(R(10, 500)) + '<br>' +
+                    '<strong>Action:</strong> ' + (sev === 'critical' ? 'Banned' : sev === 'high' ? 'Kicked' : 'Warned') +
+                    '</div></div>';
+            }
+            threatsList.innerHTML = th;
+        } else {
+            threatsList.innerHTML = '<div class="profile-empty">No threats recorded for this player</div>';
+        }
+
+        // Reset to first tab
+        showProfileTab('connections');
+    };
+
+    window.closeProfile = function () {
+        document.getElementById('idSearchView').style.display = 'block';
+        document.getElementById('idProfileView').style.display = 'none';
+    };
+
+    window.showProfileTab = function (tab) {
+        document.querySelectorAll('.profile-tab').forEach(function (t) {
+            t.classList.toggle('active', t.dataset.ptab === tab);
+        });
+        document.querySelectorAll('.profile-tab-content').forEach(function (c) {
+            c.classList.remove('active');
+        });
+        var el = document.getElementById('ptab-' + tab);
+        if (el) el.classList.add('active');
+    };
 
     // ── Logs ──
     var logsEl = document.getElementById('dLogs');
