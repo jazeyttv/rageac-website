@@ -193,6 +193,64 @@ tbody tr:hover{background:var(--bg-4)}
 .profile-threat-card .threat-meta strong{color:var(--text-1)}
 @media(max-width:768px){.profile-layout{grid-template-columns:1fr}}
 
+/* ── Exclusions Page ── */
+.exc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.exc-card{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.exc-card-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+.exc-card-head h3{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.exc-card-head h3 .material-icons-round{font-size:18px;color:var(--orange)}
+.exc-count{font-size:11px;color:var(--text-4);background:var(--bg-5);padding:2px 8px;border-radius:10px}
+.exc-card-body{padding:14px 18px}
+.exc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;min-height:28px}
+.exc-tag{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;background:var(--bg-5);border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text-2);font-family:'Courier New',monospace}
+.exc-tag-x{background:none;border:none;color:var(--text-4);cursor:pointer;font-size:14px;padding:0;line-height:1;font-weight:700;transition:color .15s;margin-left:2px}
+.exc-tag-x:hover{color:var(--red)}
+.exc-empty{font-size:12px;color:var(--text-4);font-style:italic;padding:4px 0}
+.exc-add-row{display:flex;gap:8px}
+.exc-add-input{flex:1;padding:8px 12px;background:var(--bg-4);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-1);font-family:'Courier New',monospace;font-size:12px;outline:none}
+.exc-add-input:focus{border-color:var(--orange)}
+.exc-add-input::placeholder{color:var(--text-4);font-family:var(--font);font-style:italic}
+.exc-add-btn{padding:8px 18px;background:var(--orange);border:none;border-radius:var(--radius-sm);color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:background .2s;white-space:nowrap;font-family:var(--font)}
+.exc-add-btn:hover{background:#e63636}
+
+/* ── Map Page ── */
+.map-layout{position:relative;height:calc(100vh - 96px);margin:0 -32px -24px;overflow:hidden;display:flex}
+.map-container{flex:1;position:relative;overflow:hidden;background:#143d6b}
+.map-img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.85) contrast(1.1)}
+.map-marker{position:absolute;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.5);border:2px solid rgba(255,255,255,.3);cursor:pointer;transition:transform .2s;z-index:5;transform:translate(-50%,-50%)}
+.map-marker:hover{transform:translate(-50%,-50%) scale(1.3);z-index:10}
+.map-marker.selected{transform:translate(-50%,-50%) scale(1.3);border-color:#fff;box-shadow:0 0 12px rgba(255,255,255,.4);z-index:10}
+.map-popup{position:absolute;z-index:20;background:rgba(12,12,24,.92);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:var(--radius);padding:16px;min-width:220px;box-shadow:0 8px 30px rgba(0,0,0,.5);display:none}
+.map-popup.show{display:block;animation:fadeIn .2s ease}
+.map-popup-close{position:absolute;top:8px;right:10px;background:none;border:none;color:var(--text-4);font-size:18px;cursor:pointer}
+.map-popup-close:hover{color:var(--text-1)}
+.map-popup-name{font-size:15px;font-weight:700;margin-bottom:10px}
+.map-popup-row{font-size:12px;color:var(--text-3);padding:2px 0;display:flex;align-items:center;gap:6px}
+.map-popup-row span{color:var(--text-1);font-weight:500}
+.map-popup-actions{display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.map-popup-btn{padding:5px 12px;border-radius:var(--radius-sm);font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--bg-4);color:var(--text-2);font-family:var(--font);transition:all .15s}
+.map-popup-btn:hover{border-color:var(--orange);color:var(--orange)}
+.map-sidebar{width:280px;background:rgba(0,0,0,.55);backdrop-filter:blur(12px);border-left:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;flex-shrink:0}
+.map-sb-search{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.map-sb-search input{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff;padding:8px 12px;border-radius:6px;font-size:13px;font-family:var(--font);outline:none}
+.map-sb-search input::placeholder{color:rgba(255,255,255,.35)}
+.map-sb-list{flex:1;overflow-y:auto}
+.map-sb-player{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;transition:background .15s;font-size:13px}
+.map-sb-player:hover{background:rgba(255,255,255,.06)}
+.map-sb-player.active{background:rgba(255,255,255,.1)}
+.map-sb-id{color:rgba(255,255,255,.4);font-weight:700;font-size:12px;font-family:monospace;flex-shrink:0;min-width:24px}
+.map-sb-name{color:#fff;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.map-sb-trust{font-size:10px;font-weight:700;padding:2px 6px;border-radius:10px}
+.map-sb-trust.green{background:var(--green-dim);color:var(--green)}
+.map-sb-trust.orange{background:var(--yellow-dim);color:var(--yellow)}
+.map-sb-trust.red{background:var(--red-dim);color:var(--red)}
+.map-style-btns{position:absolute;bottom:16px;left:16px;z-index:10;display:flex;gap:4px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border-radius:8px;padding:4px;border:1px solid rgba(255,255,255,.08)}
+.map-style-btn{background:transparent;border:none;color:rgba(255,255,255,.5);cursor:pointer;padding:6px 8px;border-radius:6px;display:flex;align-items:center;transition:all .15s}
+.map-style-btn:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.08)}
+.map-style-btn.active{color:#fff;background:rgba(255,255,255,.15)}
+.map-style-btn .material-icons-round{font-size:18px}
+@media(max-width:768px){.map-sidebar{width:200px}.exc-grid{grid-template-columns:1fr}}
+
 /* ── Responsive ── */
 @media(max-width:900px){.dash-grid{grid-template-columns:1fr}.health-grid{grid-template-columns:1fr}.screen-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}}
 @media(max-width:600px){.page-wrap{padding:16px}.topnav-tab span:last-child{display:none}.topnav-tab{padding:8px 8px}.stats-row{grid-template-columns:repeat(2,1fr)}.demo-back{display:none}}
@@ -219,6 +277,8 @@ tbody tr:hover{background:var(--bg-4)}
 <a class="topnav-tab" data-page="threats" onclick="showDemo('threats')"><span class="material-icons-round">warning</span><span>THREATS</span></a>
 <a class="topnav-tab" data-page="analytics" onclick="showDemo('analytics')"><span class="material-icons-round">insights</span><span>ANALYTICS</span></a>
 <a class="topnav-tab" data-page="screen" onclick="showDemo('screen')"><span class="material-icons-round">screenshot_monitor</span><span>SCREEN</span></a>
+<a class="topnav-tab" data-page="exclusions" onclick="showDemo('exclusions')"><span class="material-icons-round">tune</span><span>EXCLUSIONS</span></a>
+<a class="topnav-tab" data-page="map" onclick="showDemo('map')"><span class="material-icons-round">map</span><span>MAP</span></a>
 <a class="topnav-tab" data-page="console" onclick="showDemo('console')"><span class="material-icons-round">terminal</span><span>CONSOLE</span></a>
 <a class="topnav-tab" data-page="health" onclick="showDemo('health')"><span class="material-icons-round">monitor_heart</span><span>HEALTH</span></a>
 <a class="topnav-tab" data-page="identities" onclick="showDemo('identities')"><span class="material-icons-round">person_search</span><span>IDENTITIES</span></a>
@@ -320,6 +380,32 @@ tbody tr:hover{background:var(--bg-4)}
 <div class="stat-card green"><div class="stat-card-num">5</div><div class="stat-card-label">Recently Joined</div></div>
 </div>
 <div class="screen-grid" id="dScreenGrid"></div>
+</div>
+
+<!-- EXCLUSIONS -->
+<div class="page" id="page-exclusions">
+<div class="page-header"><h1>Exclusions</h1><p>Whitelist items to prevent false detections &mdash; particles, weapons, vehicles, models, and more</p></div>
+<div class="exc-grid" id="dExcGrid"></div>
+</div>
+
+<!-- MAP -->
+<div class="page" id="page-map">
+<div class="map-layout">
+<div class="map-container" id="mapContainer">
+<img class="map-img" src="https://r2.fivemanage.com/pub/gta5map.jpg" alt="GTA V Map" onerror="this.style.display='none'">
+<div id="mapMarkers"></div>
+<div class="map-popup" id="mapPopup"></div>
+<div class="map-style-btns">
+<button class="map-style-btn active"><span class="material-icons-round">satellite</span></button>
+<button class="map-style-btn"><span class="material-icons-round">map</span></button>
+<button class="map-style-btn"><span class="material-icons-round">dark_mode</span></button>
+</div>
+</div>
+<div class="map-sidebar">
+<div class="map-sb-search"><input placeholder="Search players..." id="mapSearch"></div>
+<div class="map-sb-list" id="mapSbList"></div>
+</div>
+</div>
 </div>
 
 <!-- CONSOLE -->

@@ -487,6 +487,198 @@
         if (el) el.classList.add('active');
     };
 
+    // ── Exclusions Page ──
+    var excGrid = document.getElementById('dExcGrid');
+    if (excGrid) {
+        var excCards = [
+            { icon: 'blur_on', name: 'Particle Crash Whitelist', items: ['weap_xs_vehicle_weapons'], placeholder: 'e.g. weap_xs_vehicle_weapons' },
+            { icon: 'gps_fixed', name: 'Aimbot Weapon Whitelist', items: ['OBJECT', 'WEAPON_SNOWBALL'], placeholder: 'e.g. WEAPON_SNOWBALL' },
+            { icon: 'track_changes', name: 'Silent Aim Whitelist', items: ['GROUP_SHOTGUN', 'WEAPON_STINGER'], placeholder: 'e.g. GROUP_SHOTGUN' },
+            { icon: 'public', name: 'Geo-Blocked Countries', items: [], placeholder: 'e.g. CN, RU, KP' },
+            { icon: 'public_off', name: 'Geo-Block Exempt Players', items: [], placeholder: 'e.g. license:xxxxx' },
+            { icon: 'verified_user', name: 'Trust Score Whitelist', items: ['ky'], placeholder: 'e.g. license:xxxxx' },
+            { icon: 'vpn_lock', name: 'Anti-VPN Whitelist', items: [], placeholder: 'e.g. license:xxxxx' },
+            { icon: 'block', name: 'IP Ban Whitelist', items: [], placeholder: 'e.g. 192.168.1.1' },
+            { icon: 'location_off', name: 'Detection Whitelist Zones', items: [], placeholder: 'e.g. zone name or coords' },
+            { icon: 'code_off', name: 'Blacklisted Commands', items: [], placeholder: 'e.g. /godmode' },
+            { icon: 'inventory_2', name: 'Resource Entity Whitelist', items: [], placeholder: 'e.g. my_resource' },
+            { icon: 'speed', name: 'Entity Ratelimit Whitelist', items: ['prop'], placeholder: 'e.g. prop_bench_01a' },
+            { icon: 'straighten', name: 'Entity Distance Whitelist', items: [], placeholder: 'e.g. resource_name' },
+            { icon: 'person_off', name: 'Armed Ped Whitelist', items: [], placeholder: 'e.g. ped_model' },
+            { icon: 'whatshot', name: 'Explosion Modifier Whitelist', items: [], placeholder: 'e.g. explosion_type' },
+        ];
+
+        var excHtml = '';
+        excCards.forEach(function (card, ci) {
+            var tagsHtml = '';
+            if (card.items.length === 0) {
+                tagsHtml = '<div class="exc-empty">No items — add one below</div>';
+            } else {
+                card.items.forEach(function (item, ti) {
+                    tagsHtml += '<span class="exc-tag" id="exc-' + ci + '-' + ti + '">' + E(item) +
+                        ' <button class="exc-tag-x" onclick="removeExcTag(' + ci + ',' + ti + ')" title="Remove">×</button></span>';
+                });
+            }
+            excHtml += '<div class="exc-card"><div class="exc-card-head"><h3><span class="material-icons-round">' + card.icon + '</span> ' + E(card.name) + '</h3>' +
+                '<span class="exc-count" id="exc-count-' + ci + '">' + card.items.length + ' items</span></div>' +
+                '<div class="exc-card-body"><div class="exc-tags" id="exc-tags-' + ci + '">' + tagsHtml + '</div>' +
+                '<div class="exc-add-row"><input class="exc-add-input" id="exc-input-' + ci + '" placeholder="' + card.placeholder + '">' +
+                '<button class="exc-add-btn" onclick="addExcTag(' + ci + ')">Add</button></div></div></div>';
+        });
+        excGrid.innerHTML = excHtml;
+
+        // Store data for interactivity
+        window._excCards = excCards;
+    }
+
+    window.addExcTag = function (ci) {
+        var input = document.getElementById('exc-input-' + ci);
+        var val = input.value.trim();
+        if (!val) return;
+
+        var card = window._excCards[ci];
+        card.items.push(val);
+        input.value = '';
+
+        var tagsEl = document.getElementById('exc-tags-' + ci);
+        var ti = card.items.length - 1;
+        // Remove empty message if present
+        var empty = tagsEl.querySelector('.exc-empty');
+        if (empty) empty.remove();
+
+        var tag = document.createElement('span');
+        tag.className = 'exc-tag';
+        tag.id = 'exc-' + ci + '-' + ti;
+        tag.innerHTML = E(val) + ' <button class="exc-tag-x" onclick="removeExcTag(' + ci + ',' + ti + ')" title="Remove">×</button>';
+        tag.style.animation = 'fadeIn .2s ease';
+        tagsEl.appendChild(tag);
+
+        document.getElementById('exc-count-' + ci).textContent = card.items.length + ' items';
+    };
+
+    window.removeExcTag = function (ci, ti) {
+        var el = document.getElementById('exc-' + ci + '-' + ti);
+        if (el) {
+            el.style.opacity = '0';
+            el.style.transform = 'scale(0.8)';
+            el.style.transition = 'all .2s';
+            setTimeout(function () { el.remove(); }, 200);
+        }
+        var card = window._excCards[ci];
+        card.items[ti] = null;
+        var count = card.items.filter(function (x) { return x !== null; }).length;
+        document.getElementById('exc-count-' + ci).textContent = count + ' items';
+
+        if (count === 0) {
+            var tagsEl = document.getElementById('exc-tags-' + ci);
+            setTimeout(function () {
+                if (!tagsEl.querySelector('.exc-tag')) {
+                    tagsEl.innerHTML = '<div class="exc-empty">No items — add one below</div>';
+                }
+            }, 250);
+        }
+    };
+
+    // ── Map Page ──
+    var mapContainer = document.getElementById('mapContainer');
+    var mapSbList = document.getElementById('mapSbList');
+    if (mapContainer && mapSbList) {
+        var mapPlayers = [];
+        var markerColors = ['#2ecc71', '#3498db', '#e67e22', '#9b59b6', '#1abc9c', '#e74c3c', '#f39c12', '#2980b9'];
+
+        for (var i = 0; i < 20; i++) {
+            var name = N[i];
+            var trust = R(40, 100);
+            var x = R(10, 90); // percentage positions
+            var y = R(10, 90);
+            mapPlayers.push({
+                id: i + 1,
+                name: name,
+                trust: trust,
+                x: x,
+                y: y,
+                health: R(100, 200),
+                ping: R(18, 130),
+                pos: R(-2000, 3000) + ', ' + R(-3000, 2000) + ', ' + R(10, 100),
+                color: P(markerColors)
+            });
+        }
+
+        // Render markers
+        var markersEl = document.getElementById('mapMarkers');
+        var mh = '';
+        mapPlayers.forEach(function (p) {
+            mh += '<div class="map-marker" id="map-m-' + p.id + '" style="left:' + p.x + '%;top:' + p.y + '%;background:' + p.color + '" ' +
+                'onclick="showMapPopup(' + p.id + ')" title="' + E(p.name) + '">' + p.id + '</div>';
+        });
+        markersEl.innerHTML = mh;
+
+        // Render sidebar
+        var sbh = '';
+        mapPlayers.forEach(function (p) {
+            var tc = p.trust > 70 ? 'green' : p.trust > 40 ? 'orange' : 'red';
+            sbh += '<div class="map-sb-player" id="map-sb-' + p.id + '" onclick="showMapPopup(' + p.id + ')">' +
+                '<span class="map-sb-id">[' + p.id + ']</span>' +
+                '<span class="map-sb-name">' + E(p.name) + '</span>' +
+                '<span class="map-sb-trust ' + tc + '">' + p.trust + '</span></div>';
+        });
+        mapSbList.innerHTML = sbh;
+
+        // Search filter
+        var mapSearch = document.getElementById('mapSearch');
+        if (mapSearch) {
+            mapSearch.addEventListener('input', function () {
+                var q = mapSearch.value.toLowerCase();
+                mapPlayers.forEach(function (p) {
+                    var sbEl = document.getElementById('map-sb-' + p.id);
+                    var mEl = document.getElementById('map-m-' + p.id);
+                    var show = p.name.toLowerCase().indexOf(q) >= 0 || String(p.id).indexOf(q) >= 0;
+                    if (sbEl) sbEl.style.display = show ? 'flex' : 'none';
+                    if (mEl) mEl.style.display = show ? 'flex' : 'none';
+                });
+            });
+        }
+
+        window._mapPlayers = mapPlayers;
+    }
+
+    window.showMapPopup = function (id) {
+        var p = window._mapPlayers.find(function (x) { return x.id === id; });
+        if (!p) return;
+
+        // Highlight sidebar
+        document.querySelectorAll('.map-sb-player').forEach(function (el) { el.classList.remove('active'); });
+        document.querySelectorAll('.map-marker').forEach(function (el) { el.classList.remove('selected'); });
+        var sbEl = document.getElementById('map-sb-' + id);
+        var mEl = document.getElementById('map-m-' + id);
+        if (sbEl) sbEl.classList.add('active');
+        if (mEl) mEl.classList.add('selected');
+
+        var tc = p.trust > 70 ? '#2ecc71' : p.trust > 40 ? '#f39c12' : '#e74c3c';
+        var popup = document.getElementById('mapPopup');
+        popup.innerHTML =
+            '<button class="map-popup-close" onclick="closeMapPopup()">×</button>' +
+            '<div class="map-popup-name">#' + p.id + ' ' + E(p.name) + '</div>' +
+            '<div class="map-popup-row">Trust: <span style="color:' + tc + ';font-weight:700;padding:1px 8px;border-radius:4px;background:' + tc + '20">' + p.trust + '/100</span></div>' +
+            '<div class="map-popup-row">Pos: <span>' + p.pos + '</span></div>' +
+            '<div class="map-popup-row">Health: <span>' + p.health + '</span> | Ping: <span>' + p.ping + 'ms</span></div>' +
+            '<div class="map-popup-actions">' +
+            '<button class="map-popup-btn">Kick</button>' +
+            '<button class="map-popup-btn">Ban</button>' +
+            '<button class="map-popup-btn">Screenshot</button></div>';
+
+        popup.style.left = Math.min(p.x, 65) + '%';
+        popup.style.top = Math.min(p.y, 60) + '%';
+        popup.className = 'map-popup show';
+    };
+
+    window.closeMapPopup = function () {
+        var popup = document.getElementById('mapPopup');
+        popup.className = 'map-popup';
+        document.querySelectorAll('.map-sb-player').forEach(function (el) { el.classList.remove('active'); });
+        document.querySelectorAll('.map-marker').forEach(function (el) { el.classList.remove('selected'); });
+    };
+
     // ── Logs ──
     var logsEl = document.getElementById('dLogs');
     if (logsEl) {
