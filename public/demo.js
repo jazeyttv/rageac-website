@@ -93,6 +93,14 @@
             'Event Protection': ['Event Ratelimit', 'Blacklisted Events', 'Event AI Analysis', 'Bad Event Blocking']
         };
         var K = Object.keys(S), A = K[0];
+        // Store toggle states persistently
+        var toggleStates = {};
+        K.forEach(function (k) {
+            S[k].forEach(function (item) {
+                toggleStates[item] = Math.random() > 0.15;
+            });
+        });
+
         function render() {
             tabs.innerHTML = '';
             body.innerHTML = '';
@@ -103,16 +111,42 @@
                 b.onclick = function () { A = k; render(); };
                 tabs.appendChild(b);
             });
-            var items = S[A], h = '';
+            var items = S[A];
             items.forEach(function (item) {
-                var on = Math.random() > 0.15;
-                h += '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #1a1a2e">' +
-                    '<div><div style="color:#e4e4ef;font-size:13px;font-weight:500">' + item + '</div>' +
-                    '<div style="font-size:11px;color:#55556a;margin-top:2px">' + (on ? 'Active — monitoring' : 'Disabled') + '</div></div>' +
-                    '<div style="position:relative;width:42px;height:24px;background:' + (on ? '#ff3e3e' : '#2a2a40') + ';border-radius:12px;cursor:pointer">' +
-                    '<div style="position:absolute;top:3px;left:' + (on ? '21px' : '3px') + ';width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s"></div></div></div>';
+                var on = toggleStates[item];
+
+                var row = document.createElement('div');
+                row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #1a1a2e';
+
+                var info = document.createElement('div');
+                var nameEl = document.createElement('div');
+                nameEl.style.cssText = 'color:#e4e4ef;font-size:13px;font-weight:500';
+                nameEl.textContent = item;
+                var statusEl = document.createElement('div');
+                statusEl.style.cssText = 'font-size:11px;color:#55556a;margin-top:2px';
+                statusEl.textContent = on ? 'Active — monitoring' : 'Disabled';
+                info.appendChild(nameEl);
+                info.appendChild(statusEl);
+
+                var toggle = document.createElement('div');
+                toggle.style.cssText = 'position:relative;width:42px;height:24px;background:' + (on ? '#ff3e3e' : '#2a2a40') + ';border-radius:12px;cursor:pointer;transition:background .25s;flex-shrink:0';
+                var knob = document.createElement('div');
+                knob.style.cssText = 'position:absolute;top:3px;left:' + (on ? '21px' : '3px') + ';width:18px;height:18px;background:#fff;border-radius:50%;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.3)';
+                toggle.appendChild(knob);
+
+                toggle.addEventListener('click', function () {
+                    var isOn = toggleStates[item];
+                    toggleStates[item] = !isOn;
+                    var newOn = !isOn;
+                    toggle.style.background = newOn ? '#ff3e3e' : '#2a2a40';
+                    knob.style.left = newOn ? '21px' : '3px';
+                    statusEl.textContent = newOn ? 'Active — monitoring' : 'Disabled';
+                });
+
+                row.appendChild(info);
+                row.appendChild(toggle);
+                body.appendChild(row);
             });
-            body.innerHTML = h;
         }
         render();
     })();
