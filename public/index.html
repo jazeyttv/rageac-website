@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RageAC - Advanced FiveM Anti-Cheat Protection</title>
+<meta name="description" content="RageAC is the most advanced FiveM anti-cheat system. 70+ detections, real-time dashboard, aimbot detection, god mode prevention, and more.">
+<meta name="theme-color" content="#ff3e3e">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="particles"></canvas>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">
+            <span class="nav-logo-icon">🛡️</span>
+            <span class="nav-logo-text">RageAC</span>
+        </a>
+        <div class="nav-links" id="navLinks">
+            <a href="#features">Features</a>
+            <a href="#detections">Detections</a>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#stats">Stats</a>
+            <a href="#faq">FAQ</a>
+        </div>
+        <div class="nav-actions">
+            <a href="#get-started" class="btn-primary">Get Started</a>
+            <button class="nav-burger" id="navBurger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+        <div class="hero-badge">🛡️ TRUSTED BY 500+ FIVEM SERVERS</div>
+        <h1 class="hero-title">
+            The Most <span class="gradient-text">Advanced</span><br>
+            FiveM Anti-Cheat
+        </h1>
+        <p class="hero-sub">
+            70+ real-time detections. Instant bans. Zero tolerance.<br>
+            Protect your server from cheaters, exploiters, and modders with military-grade detection.
+        </p>
+        <div class="hero-buttons">
+            <a href="#get-started" class="btn-primary btn-lg">
+                <span class="material-icons-round">rocket_launch</span>
+                Get RageAC
+            </a>
+            <a href="#features" class="btn-ghost btn-lg">
+                <span class="material-icons-round">explore</span>
+                Explore Features
+            </a>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-num" data-count="70">0</div>
+                <div class="hero-stat-label">Detections</div>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <div class="hero-stat-num" data-count="50">0</div>
+                <div class="hero-stat-label">API Endpoints</div>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <div class="hero-stat-num" data-count="15">0</div>
+                <div class="hero-stat-label">Dashboard Pages</div>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <div class="hero-stat-num" data-count="200">0</div>
+                <div class="hero-stat-label">Config Options</div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-scroll">
+        <span class="material-icons-round">expand_more</span>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">FEATURES</span>
+            <h2>Everything You Need to<br><span class="gradient-text">Protect Your Server</span></h2>
+            <p>RageAC provides comprehensive protection with intelligent detection, a powerful admin dashboard, and complete automation.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon red"><span class="material-icons-round">shield</span></div>
+                <h3>70+ Detections</h3>
+                <p>Client-side and server-side detection covering aimbot, god mode, speed hacks, teleportation, noclip, weapon mods, and much more.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon orange"><span class="material-icons-round">dashboard</span></div>
+                <h3>Web Dashboard</h3>
+                <p>Full browser-based admin panel with live feed, player management, ban management, analytics, screen viewer, console, and 15+ pages.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon blue"><span class="material-icons-round">screenshot_monitor</span></div>
+                <h3>Live Screen Capture</h3>
+                <p>View any player's screen in real-time from the dashboard. Auto-refreshing screenshots every 2 seconds for live monitoring.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon green"><span class="material-icons-round">gps_fixed</span></div>
+                <h3>Multi-Method Aimbot</h3>
+                <p>5 independent aimbot detection methods: snap detection, bone lock, target switching, rolling window consistency, and movement tracking.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon purple"><span class="material-icons-round">api</span></div>
+                <h3>REST API</h3>
+                <p>50+ API endpoints for complete integration. Manage bans, players, configs, screenshots, analytics, and more programmatically.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon yellow"><span class="material-icons-round">bolt</span></div>
+                <h3>Instant Response</h3>
+                <p>Strike-based system with configurable thresholds. Immediate ban, kick, or warn on confirmed cheating with evidence capture.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon cyan"><span class="material-icons-round">webhook</span></div>
+                <h3>Discord Webhooks</h3>
+                <p>4 webhook channels: detections, bans, connections, and admin actions. Rich embeds with full player details and timestamps.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon pink"><span class="material-icons-round">smart_toy</span></div>
+                <h3>Trigger Automation</h3>
+                <p>IF/THEN rule engine. Auto-ban on specific detections, trigger webhooks, kick players, or log events based on custom conditions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon teal"><span class="material-icons-round">fingerprint</span></div>
+                <h3>HWID & Alt Detection</h3>
+                <p>Hardware ID banning, linked account detection, and cross-identifier tracking to prevent ban evasion across accounts.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DETECTIONS -->
+<section class="section section-dark" id="detections">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">DETECTIONS</span>
+            <h2>Comprehensive <span class="gradient-text">Detection Coverage</span></h2>
+            <p>Both client-side and server-side detection working together for maximum coverage with minimum false positives.</p>
+        </div>
+        <div class="detection-tabs">
+            <button class="det-tab active" data-tab="combat">Combat</button>
+            <button class="det-tab" data-tab="movement">Movement</button>
+            <button class="det-tab" data-tab="vehicle">Vehicle</button>
+            <button class="det-tab" data-tab="exploit">Exploits</button>
+            <button class="det-tab" data-tab="menu">Menus</button>
+            <button class="det-tab" data-tab="server">Server-Side</button>
+        </div>
+        <div class="detection-panel active" id="det-combat">
+            <div class="det-grid">
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Aimbot (Multi-Method)</strong><p>5 independent detection methods that must agree before flagging</p></div></div>
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Silent Aim</strong><p>Detects bullet redirection to targets outside aim direction</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>No Recoil</strong><p>Detects zero camera movement while continuously firing</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>No Reload</strong><p>Detects continuous firing without reloading (30+ shots)</p></div></div>
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Infinite Ammo</strong><p>Detects ammo that never decreases after shooting</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Explosive Bullets</strong><p>Detects explosive, incendiary, and AP ammo usage</p></div></div>
+                <div class="det-item"><span class="det-dot medium"></span><div><strong>Super Punch</strong><p>Detects abnormally high melee damage modifiers</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Hitbox Modifier</strong><p>Detects modified hitbox sizes and damage modifiers</p></div></div>
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>God Mode (3 Methods)</strong><p>Super health, invincibility, and rapid regeneration detection</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Anti Head-Lock</strong><p>Active countermeasure that breaks aimbot head-locking</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Blacklisted Weapons</strong><p>Auto-removes forbidden weapons on both client and server</p></div></div>
+                <div class="det-item"><span class="det-dot medium"></span><div><strong>Weapon Component Modifier</strong><p>Detects unauthorized weapon attachments</p></div></div>
+            </div>
+        </div>
+        <div class="detection-panel" id="det-movement">
+            <div class="det-grid">
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Noclip Detection</strong><p>Detects flying without vehicles using height + speed checks</p></div></div>
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Teleport Detection</strong><p>Multi-strike system with interior and vehicle awareness</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Speed Hack</strong><p>Server-side monitoring with class-based vehicle thresholds</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Super Jump</strong><p>Detects abnormal jump heights exceeding 5m</p></div></div>
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Fly Hack</strong><p>Detects sustained flight without parachute or vehicle</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Freecam Detection</strong><p>Detects camera separation from player entity</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Teleport to Waypoint</strong><p>Detects teleporting to map waypoint marker</p></div></div>
+                <div class="det-item"><span class="det-dot medium"></span><div><strong>Speedhack (Time)</strong><p>Detects game timer manipulation for speed advantages</p></div></div>
+            </div>
+        </div>
+        <div class="detection-panel" id="det-vehicle">
+            <div class="det-grid">
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Vehicle Modification</strong><p>Mod-aware speed detection accounting for upgrades and terrain</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Blacklisted Vehicles</strong><p>Auto-deletes forbidden vehicles with player tracking</p></div></div>
+                <div class="det-item"><span class="det-dot medium"></span><div><strong>Vehicle Throw</strong><p>Detects vehicles being thrown at other players</p></div></div>
+                <div class="det-item"><span class="det-dot medium"></span><div><strong>Plate Swap</strong><p>Detects license plate changes on vehicles</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Vehicle Fly</strong><p>Detects vehicles flying without proper physics</p></div></div>
+                <div class="det-item"><span class="det-dot medium"></span><div><strong>Local Vehicle Spawner</strong><p>Detects unauthorized vehicle spawning</p></div></div>
+            </div>
+        </div>
+        <div class="detection-panel" id="det-exploit">
+            <div class="det-grid">
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Entity Spam Protection</strong><p>Rate-limits entity/ped/vehicle creation with 3-strike system</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Explosion Filtering</strong><p>Blocks blacklisted explosions and rate-limits all explosions</p></div></div>
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Invisible Detection</strong><p>Detects invisible player entities after 5+ seconds</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Pickup Spam</strong><p>Detects money drops and pickup spam nearby</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Particle Crash</strong><p>Detects crash-inducing particle effects</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Model Change Crash</strong><p>Detects crash-inducing rapid ped model switching</p></div></div>
+                <div class="det-item"><span class="det-dot medium"></span><div><strong>Entity Attach</strong><p>Detects attaching entities to other players</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Clear Task Abuse</strong><p>Prevents players from freezing other players</p></div></div>
+            </div>
+        </div>
+        <div class="detection-panel" id="det-menu">
+            <div class="det-grid">
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Scaleform Detection</strong><p>Detects known cheat menu scaleforms being loaded</p></div></div>
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Keybind Detection</strong><p>Detects rapid menu-opening key press patterns</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>NUI Focus Detection</strong><p>Detects prolonged NUI focus without legitimate cause</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>GXT Injection</strong><p>Detects GXT string injection techniques</p></div></div>
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Blacklisted Textures</strong><p>Detects cheat menu textures being loaded</p></div></div>
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Resource Tampering</strong><p>Detects client-side resource file modifications</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Resource Injection</strong><p>Monitors resource starts/stops after boot</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>HUD Anomaly</strong><p>Detects HUD manipulation by cheat menus</p></div></div>
+            </div>
+        </div>
+        <div class="detection-panel" id="det-server">
+            <div class="det-grid">
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Weapon Damage Validation</strong><p>Detects abnormal damage values exceeding 1000</p></div></div>
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>One-Shot Detection</strong><p>Detects 500+ damage with non-explosive weapons</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Damage Spoof (2 Methods)</strong><p>Detects modified and impossible damage values</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Max Kill Distance</strong><p>Blocks weapon damage beyond 500m</p></div></div>
+                <div class="det-item"><span class="det-dot critical"></span><div><strong>Server Aimbot Detection</strong><p>Pattern analysis: headshot ratio, rapid kills, multi-target</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Heartbeat Monitor</strong><p>Detects client-side script tampering via 30s heartbeat</p></div></div>
+                <div class="det-item"><span class="det-dot high"></span><div><strong>Event Protection</strong><p>Blacklisted events, rate limiting, and AI event analysis</p></div></div>
+                <div class="det-item"><span class="det-dot medium"></span><div><strong>Anti-VPN & Geo-Block</strong><p>VPN detection and country-based connection blocking</p></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section class="section" id="dashboard">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">DASHBOARD</span>
+            <h2>Powerful <span class="gradient-text">Admin Dashboard</span></h2>
+            <p>A full-featured web dashboard for managing your server's anti-cheat from anywhere. No in-game access required.</p>
+        </div>
+        <div class="dashboard-preview">
+            <div class="dashboard-window">
+                <div class="window-bar">
+                    <div class="window-dots"><span></span><span></span><span></span></div>
+                    <div class="window-url">dashboard.rageac.com</div>
+                    <div class="window-dots" style="visibility:hidden"><span></span><span></span><span></span></div>
+                </div>
+                <div class="window-body">
+                    <div class="mock-nav">
+                        <div class="mock-logo">🛡️ <span>RageAC</span></div>
+                        <div class="mock-tabs">
+                            <span class="active">Dashboard</span>
+                            <span>Players</span>
+                            <span>Bans</span>
+                            <span>Threats</span>
+                            <span>Analytics</span>
+                            <span>Screen</span>
+                            <span>Console</span>
+                            <span>Health</span>
+                        </div>
+                    </div>
+                    <div class="mock-content">
+                        <div class="mock-stats">
+                            <div class="mock-stat orange"><div class="mock-stat-num">47</div><div class="mock-stat-lbl">Players Online</div></div>
+                            <div class="mock-stat red"><div class="mock-stat-num">23</div><div class="mock-stat-lbl">Active Bans</div></div>
+                            <div class="mock-stat yellow"><div class="mock-stat-num">156</div><div class="mock-stat-lbl">Detections</div></div>
+                            <div class="mock-stat green"><div class="mock-stat-num">14h</div><div class="mock-stat-lbl">Uptime</div></div>
+                            <div class="mock-stat blue"><div class="mock-stat-num">89</div><div class="mock-stat-lbl">Total Bans</div></div>
+                        </div>
+                        <div class="mock-grid">
+                            <div class="mock-panel main">
+                                <div class="mock-panel-head"><span>Live Detection Feed</span><span class="mock-live">● LIVE</span></div>
+                                <div class="mock-feed" id="mockFeed"></div>
+                            </div>
+                            <div class="mock-panel side">
+                                <div class="mock-panel-head"><span>Online Players</span><span class="mock-count">47</span></div>
+                                <div class="mock-players" id="mockPlayers"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-features">
+            <div class="dash-feat">
+                <span class="material-icons-round">live_tv</span>
+                <div><strong>Live Feed</strong><p>Real-time detection events streaming</p></div>
+            </div>
+            <div class="dash-feat">
+                <span class="material-icons-round">people</span>
+                <div><strong>Player Management</strong><p>Full player list with actions</p></div>
+            </div>
+            <div class="dash-feat">
+                <span class="material-icons-round">gavel</span>
+                <div><strong>Ban Management</strong><p>Search, ban, unban with one click</p></div>
+            </div>
+            <div class="dash-feat">
+                <span class="material-icons-round">insights</span>
+                <div><strong>Analytics</strong><p>Charts, trends, top offenders</p></div>
+            </div>
+            <div class="dash-feat">
+                <span class="material-icons-round">screenshot_monitor</span>
+                <div><strong>Screen Viewer</strong><p>Live screen capture of any player</p></div>
+            </div>
+            <div class="dash-feat">
+                <span class="material-icons-round">terminal</span>
+                <div><strong>Console</strong><p>Live server console with command input</p></div>
+            </div>
+            <div class="dash-feat">
+                <span class="material-icons-round">monitor_heart</span>
+                <div><strong>Health Monitor</strong><p>FPS, entities, tick rate, alerts</p></div>
+            </div>
+            <div class="dash-feat">
+                <span class="material-icons-round">how_to_vote</span>
+                <div><strong>Ban Appeals</strong><p>Built-in appeal system</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ADMIN TOOLS -->
+<section class="section section-dark" id="admin">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">ADMIN TOOLS</span>
+            <h2>In-Game <span class="gradient-text">Admin Panel</span></h2>
+            <p>Press F9 for a full NUI admin panel with tools to manage your server without leaving the game.</p>
+        </div>
+        <div class="admin-grid">
+            <div class="admin-card">
+                <span class="material-icons-round">visibility</span>
+                <strong>ESP Overlay</strong>
+                <p>Box rendering with health and armor bars</p>
+            </div>
+            <div class="admin-card">
+                <span class="material-icons-round">flight</span>
+                <strong>Noclip</strong>
+                <p>Camera-based movement for admins</p>
+            </div>
+            <div class="admin-card">
+                <span class="material-icons-round">shield</span>
+                <strong>God Mode</strong>
+                <p>Invincibility toggle for admins</p>
+            </div>
+            <div class="admin-card">
+                <span class="material-icons-round">visibility_off</span>
+                <strong>Invisible</strong>
+                <p>Hide from all players</p>
+            </div>
+            <div class="admin-card">
+                <span class="material-icons-round">preview</span>
+                <strong>Spectate</strong>
+                <p>Watch any player in real-time</p>
+            </div>
+            <div class="admin-card">
+                <span class="material-icons-round">my_location</span>
+                <strong>Teleport</strong>
+                <p>Teleport to or bring any player</p>
+            </div>
+            <div class="admin-card">
+                <span class="material-icons-round">delete_sweep</span>
+                <strong>Clear Area</strong>
+                <p>Remove entities in 100m radius</p>
+            </div>
+            <div class="admin-card">
+                <span class="material-icons-round">camera_alt</span>
+                <strong>Screenshot</strong>
+                <p>Capture any player's screen instantly</p>
+            </div>
+            <div class="admin-card">
+                <span class="material-icons-round">favorite</span>
+                <strong>Heal & Revive</strong>
+                <p>Heal yourself or revive any player</p>
+            </div>
+            <div class="admin-card">
+                <span class="material-icons-round">label</span>
+                <strong>Name Tags</strong>
+                <p>Floating name tags for all players</p>
+            </div>
+            <div class="admin-card">
+                <span class="material-icons-round">directions_car</span>
+                <strong>Vehicle Wipe</strong>
+                <p>Remove all vehicles from the server</p>
+            </div>
+            <div class="admin-card">
+                <span class="material-icons-round">ac_unit</span>
+                <strong>Freeze Player</strong>
+                <p>Freeze any player in place</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATS SECTION -->
+<section class="section" id="stats">
+    <div class="container">
+        <div class="stats-showcase">
+            <div class="stat-big">
+                <div class="stat-big-num" data-count="70">0<span>+</span></div>
+                <div class="stat-big-label">Detection Types</div>
+                <div class="stat-big-desc">Client and server-side combined</div>
+            </div>
+            <div class="stat-big">
+                <div class="stat-big-num" data-count="50">0<span>+</span></div>
+                <div class="stat-big-label">API Endpoints</div>
+                <div class="stat-big-desc">Full REST API for integration</div>
+            </div>
+            <div class="stat-big">
+                <div class="stat-big-num" data-count="200">0<span>+</span></div>
+                <div class="stat-big-label">Config Options</div>
+                <div class="stat-big-desc">Fully customizable to your needs</div>
+            </div>
+            <div class="stat-big">
+                <div class="stat-big-num" data-count="4">0</div>
+                <div class="stat-big-label">Ban Methods</div>
+                <div class="stat-big-desc">Identifier, IP, HWID, and temporary</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROTECTION LAYERS -->
+<section class="section section-dark" id="protection">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">SECURITY</span>
+            <h2>Multi-Layer <span class="gradient-text">Protection</span></h2>
+            <p>RageAC doesn't just detect cheats — it prevents them, blocks them, and ensures they never return.</p>
+        </div>
+        <div class="layers-grid">
+            <div class="layer-card">
+                <div class="layer-num">01</div>
+                <h3>Connection Guard</h3>
+                <p>Anti-VPN, geo-blocking, required identifiers, Discord account age verification, and duplicate license prevention — all before the player even spawns.</p>
+            </div>
+            <div class="layer-card">
+                <div class="layer-num">02</div>
+                <h3>Real-Time Detection</h3>
+                <p>70+ detections running simultaneously on both client and server. Multi-method aimbot detection, god mode checks, speed monitoring, and entity validation.</p>
+            </div>
+            <div class="layer-card">
+                <div class="layer-num">03</div>
+                <h3>Evidence & Punishment</h3>
+                <p>Automatic evidence capture (5-frame screenshot bursts) before every ban. Configurable punishment per detection type with strike systems.</p>
+            </div>
+            <div class="layer-card">
+                <div class="layer-num">04</div>
+                <h3>Evasion Prevention</h3>
+                <p>HWID banning, linked account detection, IP bans, and cross-identifier tracking ensure banned players can't return on new accounts.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">FAQ</span>
+            <h2>Frequently Asked <span class="gradient-text">Questions</span></h2>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>Does RageAC cause false bans?</span>
+                    <span class="material-icons-round faq-arrow">expand_more</span>
+                </button>
+                <div class="faq-a">
+                    <p>RageAC uses multi-method verification and strike-based systems to virtually eliminate false positives. Detections require multiple consecutive violations before triggering punishment, and our mod-aware vehicle detection accounts for legitimate performance upgrades.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>Does it work with ESX, QBCore, and other frameworks?</span>
+                    <span class="material-icons-round faq-arrow">expand_more</span>
+                </button>
+                <div class="faq-a">
+                    <p>Yes! RageAC auto-detects ESX, QBCore, and ND Core frameworks. It automatically exempts players from teleport detection during character selection and provides an export function for custom exemptions.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>How many detections are there?</span>
+                    <span class="material-icons-round faq-arrow">expand_more</span>
+                </button>
+                <div class="faq-a">
+                    <p>RageAC has 70+ unique detection types — 44 client-side and 30+ server-side. This covers everything from aimbot and god mode to entity spam, explosion abuse, menu detection, resource tampering, and more.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>Can I customize which detections are enabled?</span>
+                    <span class="material-icons-round faq-arrow">expand_more</span>
+                </button>
+                <div class="faq-a">
+                    <p>Absolutely. Every single detection can be individually enabled or disabled. There are 200+ configuration options covering thresholds, punishment types, whitelists, and more. All configurable from the web dashboard — no server restart required.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>Does it have a web dashboard?</span>
+                    <span class="material-icons-round faq-arrow">expand_more</span>
+                </button>
+                <div class="faq-a">
+                    <p>Yes, a full browser-based dashboard with 15+ pages: live feed, player management, ban management, analytics, screen viewer, console, server health monitoring, ban appeals, triggers, whitelist management, and more.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>How does the aimbot detection work?</span>
+                    <span class="material-icons-round faq-arrow">expand_more</span>
+                </button>
+                <div class="faq-a">
+                    <p>RageAC uses 5 independent aimbot detection methods: snap detection (rapid camera rotation), bone lock detection (aim locked on player bone), multi-target tracking (rapidly switching targets), rolling window consistency, and movement tracking. At least 2 methods must agree before flagging.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta-section" id="get-started">
+    <div class="container">
+        <div class="cta-card">
+            <div class="cta-glow"></div>
+            <h2>Ready to Protect Your Server?</h2>
+            <p>Join 500+ FiveM servers already protected by RageAC. Set up in minutes, not hours.</p>
+            <div class="cta-buttons">
+                <a href="https://discord.gg/rageac" class="btn-primary btn-lg" target="_blank" rel="noopener">
+                    <span class="material-icons-round">chat</span>
+                    Join Discord
+                </a>
+                <a href="#features" class="btn-ghost btn-lg">
+                    <span class="material-icons-round">info</span>
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">🛡️ <span>RageAC</span></div>
+                <p>The most advanced FiveM anti-cheat protection system. 70+ detections, real-time dashboard, and complete server control.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <a href="#features">Features</a>
+                <a href="#detections">Detections</a>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#admin">Admin Tools</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="#faq">FAQ</a>
+                <a href="#">Documentation</a>
+                <a href="#">Changelog</a>
+                <a href="#">Status Page</a>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <a href="#">Discord</a>
+                <a href="#">GitHub</a>
+                <a href="#">Support</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 RageAC. All rights reserved.</span>
+            <span>Built with precision for FiveM.</span>
+        </div>
+    </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
